@@ -11,6 +11,7 @@ import FormField from '../components/FormField';
 import OptionGroup from '../components/OptionGroup';
 import ConsentCheckbox from '../components/ConsentCheckbox';
 import { colors, fontSize, spacing } from '../theme';
+import PhotoPicker from '../components/PhotoPicker';
 
 type Props = NativeStackScreenProps<InspectionStackParamList, 'InspectionForm'>;
 type Field = keyof InspectionDraft;
@@ -110,6 +111,14 @@ export default function InspectionFormScreen({ navigation }: Props) {
           markTouched('riskLevel');
         }}
         error={errorFor('riskLevel')}
+      />
+            <PhotoPicker
+        imageUri={draft.imageUri}
+        onChange={(uri) => {
+          updateDraft('imageUri', uri);
+          markTouched('imageUri');
+        }}
+        error={errorFor('imageUri')}
       />
 
       <ConsentCheckbox

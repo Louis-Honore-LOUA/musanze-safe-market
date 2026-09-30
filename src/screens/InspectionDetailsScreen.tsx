@@ -1,9 +1,10 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useInspections } from '../context/InspectionsContext';
 import { RecordsStackParamList } from '../navigation/types';
 import EmptyState from '../components/EmptyState';
 import { colors, fontSize, spacing } from '../theme';
+
 
 type Props = NativeStackScreenProps<RecordsStackParamList, 'InspectionDetails'>;
 
@@ -28,6 +29,13 @@ export default function InspectionDetailsScreen({ route }: Props) {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+            {inspection.imageUri ? (
+        <Image
+          source={{ uri: inspection.imageUri }}
+          style={styles.photo}
+          accessibilityLabel="Evidence photo"
+        />
+      ) : null}
       {rows.map(([label, value]) => (
         <View key={label} style={styles.row}>
           <Text style={styles.label}>{label}</Text>
@@ -51,4 +59,5 @@ const styles = StyleSheet.create({
   },
   label: { fontSize: fontSize.sm, color: colors.textMuted },
   value: { fontSize: fontSize.md, fontWeight: '600', color: colors.text },
+    photo: { width: '100%', aspectRatio: 4 / 3, borderRadius: 12, backgroundColor: colors.border },
 });

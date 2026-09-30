@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useInspections } from '../context/InspectionsContext';
 import { InspectionStackParamList } from '../navigation/types';
 import { toInspection } from '../utils/validation';
 import EmptyState from '../components/EmptyState';
 import { colors, fontSize, spacing } from '../theme';
+
 
 type Props = NativeStackScreenProps<InspectionStackParamList, 'Review'>;
 
@@ -42,12 +43,20 @@ export default function ReviewScreen({ navigation }: Props) {
     ['Risk level', inspection.riskLevel],
     ['Consent', 'Confirmed'],
     ['Timestamp', reviewedAt.toLocaleString()],
-    ['Photo', inspection.imageUri ? 'Attached' : 'Not added yet'],
+    
   ];
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Text style={styles.intro}>Check the details before saving.</Text>
+
+            {inspection.imageUri ? (
+        <Image
+          source={{ uri: inspection.imageUri }}
+          style={styles.photo}
+          accessibilityLabel="Evidence photo"
+        />
+      ) : null}
 
       {rows.map(([label, value]) => (
         <View key={label} style={styles.row}>
@@ -99,4 +108,5 @@ const styles = StyleSheet.create({
   secondary: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.primary },
   buttonText: { color: '#FFFFFF', fontSize: fontSize.md, fontWeight: '700' },
   secondaryText: { color: colors.primary },
+    photo: { width: '100%', aspectRatio: 4 / 3, borderRadius: 12, backgroundColor: colors.border },
 });
