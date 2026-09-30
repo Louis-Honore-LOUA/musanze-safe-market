@@ -1,14 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import HomeScreen from './src/screens/HomeScreen';
-import { colors } from './src/theme';
+import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { InspectionsProvider } from './src/context/InspectionsContext';
+import AppTabs from './src/navigation/AppTabs';
 
 export default function App() {
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
-        <HomeScreen />
-      </SafeAreaView>
+      <InspectionsProvider>
+        <NavigationContainer>
+          <AppTabs />
+        </NavigationContainer>
+      </InspectionsProvider>
       <StatusBar style="dark" />
     </SafeAreaProvider>
   );
