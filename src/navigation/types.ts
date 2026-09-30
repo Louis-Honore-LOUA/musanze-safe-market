@@ -1,14 +1,17 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 
-// Écrans du stack Records, avec les paramètres qu'ils reçoivent
 export type RecordsStackParamList = {
-  RecordsList: undefined;                     // aucun paramètre
-  InspectionDetails: { inspectionId: string }; // reçoit l'id de l'inspection
+  RecordsList: undefined;
+  InspectionDetails: { inspectionId: string };
 };
 
-// Les 3 onglets
+export type InspectionStackParamList = {
+  InspectionForm: undefined;
+  Review: undefined;
+};
+
 export type RootTabParamList = {
   Home: undefined;
-  NewInspection: undefined;
+  NewInspection: NavigatorScreenParams<InspectionStackParamList>;
   Records: NavigatorScreenParams<RecordsStackParamList>;
 };
