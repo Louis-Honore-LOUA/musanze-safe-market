@@ -45,6 +45,9 @@ export function validateDraft(draft: InspectionDraft): DraftErrors {
   if (!draft.consent) {
     errors.consent = 'Consent must be confirmed before continuing.';
   }
+    if (!draft.imageUri) {
+    errors.imageUri = 'Add one evidence photo of the stall.';
+  }
 
   return errors;
 }
