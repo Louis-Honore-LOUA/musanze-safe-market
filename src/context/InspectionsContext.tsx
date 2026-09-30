@@ -1,29 +1,49 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
-import { Inspection } from '../types';
+import { Inspection, InspectionDraft } from '../types';
+
+const EMPTY_DRAFT: InspectionDraft = {
+  vendorAlias: '',
+  stallCode: '',
+  category: null,
+  contactNumber: '',
+  riskLevel: null,
+  consent: false,
+  imageUri: null,
+};
 
 type InspectionsContextValue = {
   inspections: Inspection[];
   addInspection: (inspection: Inspection) => void;
+  draft: InspectionDraft;
+  updateDraft: <K extends keyof InspectionDraft>(field: K, value: InspectionDraft[K]) => void;
+  resetDraft: () => void;
 };
 
 const InspectionsContext = createContext<InspectionsContextValue | undefined>(undefined);
 
 export function InspectionsProvider({ children }: { children: ReactNode }) {
   const [inspections, setInspections] = useState<Inspection[]>([]);
+  const [draft, setDraft] = useState<InspectionDraft>(EMPTY_DRAFT);
 
   const addInspection = (inspection: Inspection) => {
-    // On crée une NOUVELLE liste (on ne modifie jamais l'ancienne directement)
     setInspections((prev) => [inspection, ...prev]);
   };
 
+  const updateDraft = <K extends keyof InspectionDraft>(field: K, value: InspectionDraft[K]) => {
+    setDraft((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const resetDraft = () => setDraft(EMPTY_DRAFT);
+
   return (
-    <InspectionsContext.Provider value={{ inspections, addInspection }}>
+    <InspectionsContext.Provider
+      value={{ inspections, addInspection, draft, updateDraft, resetDraft }}
+    >
       {children}
     </InspectionsContext.Provider>
   );
 }
 
-// Hook personnalisé pour lire la mémoire depuis n'importe quel écran
 export function useInspections() {
   const context = useContext(InspectionsContext);
   if (!context) {

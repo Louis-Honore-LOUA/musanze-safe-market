@@ -32,3 +32,16 @@ export interface Inspection {
   imageUri: string | null; // null = pas encore de photo
   createdAt: string;       // date au format ISO
 }
+// Le brouillon du formulaire : les choix peuvent être encore vides (null)
+export interface InspectionDraft {
+  vendorAlias: string;
+  stallCode: string;
+  category: Category | null;
+  contactNumber: string;
+  riskLevel: RiskLevel | null;
+  consent: boolean;
+  imageUri: string | null;
+}
+
+// Un message d'erreur possible par champ
+export type DraftErrors = Partial<Record<keyof InspectionDraft, string>>;
